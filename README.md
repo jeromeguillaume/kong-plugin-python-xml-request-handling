@@ -61,11 +61,11 @@ The expected result is ```12```:
   </soap:Body>
 </soap:Envelope>
 ```
-### Example #1: adding a Tag in ```calcWebService``` XML request by using XSLT 
+### Example #1: adding a Tag in XML request of ```calcWebService```  by using XSLT 
 The plugin applies a XSLTransformation on XML request.
 In this example the XSLT **adds the value ```<b>8</b>```** that will be not present in the request.
 Configure the plugin with:
-- ```XsltReplace``` property with this XSLT definition:
+- ```XslTransform``` property with this XSLT definition:
 ```xml
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     <xsl:output omit-xml-declaration="yes" indent="yes"/>
@@ -91,7 +91,7 @@ Use request defined at step #4, remove ```<b>7</b>```, the expected result is no
   </soap:Body>
 </soap:Envelope>
 ```
-### Example #2: renaming a Tag in ```calcWebService``` XML request by using XSLT
+### Example #2: renaming a Tag in XML request of ```calcWebService``` by using XSLT
 The plugin applies a XSLTransformation on XML request.
 In this example we **change the Tag name from ```<Subtract>...</Subtract>```** (present in the request) **to ```<Add>...</Add>```**.
 
@@ -107,7 +107,7 @@ In this example we **change the Tag name from ```<Subtract>...</Subtract>```** (
 ```
 
 Configure the plugin with:
-- ```XsltReplace``` property with this XSLT definition:
+- ```XslTransform``` property with this XSLT definition:
 ```xml
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     <xsl:template match="@*|node()">
@@ -139,7 +139,7 @@ In this example we replace the value of:
 - ```<b>```: former: ```7``` to new: ```9```
 
 Configure the plugin with:
-- ```XsltReplace``` property with no value
+- ```XslTransform``` property with no value
 - ```XPathReplace``` property with the value 
 ```.//{http://tempuri.org/}a, .//{http://tempuri.org/}b```
 - ```XPathReplaceValue``` property with the value 
@@ -160,7 +160,7 @@ Use request defined at step #4, the expected result is no longer ```12``` but ``
 We call incorrectly the Service by injecting a SOAP error; the plugin detects it, sends an error message to the Consumer and Kong doesn't call the SOAP backend API.
 
 Configure the plugin with:
-- ```XsltReplace``` property with no value
+- ```XslTransform``` property with no value
 - ```XPathReplace``` property with no value
 - ```XPathReplaceValue``` property with no value
 - ```XsdSoapSchema``` property with the default value (defined by W3C) which checks the entire SOAP XML content against its schema 
@@ -195,7 +195,7 @@ Use request defined at step #4, **replace ```<b>7</b>``` by ```<b>ABCD</b>```** 
 ### Example #5: chaining all plugin capabilities on ```calcWebService``` call
 Configure the plugin with:
 
-- ```XsltReplace``` property with no value
+- ```XslTransform``` property with no value
 - ```XPathReplace``` property with no value
 - ```XPathReplaceValue``` property with no value
 - ```XsdApiSchema``` property with the value defined at example #4
@@ -208,7 +208,7 @@ Use request defined at step #4, **remove ```<b>7</b>```** => there is an error b
 2) XSLTransformation + XSD schema Validation
 
 Configure the plugin with:
-- ```XsltReplace``` property with this XSLT definition which **adds the value ```<b>ABCD</b>```** that will be not present in the request but injected with a String value (instead of Integer)
+- ```XslTransform``` property with this XSLT definition which **adds the value ```<b>ABCD</b>```** that will be not present in the request but injected with a String value (instead of Integer)
 ```xml
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     <xsl:output omit-xml-declaration="yes" indent="yes"/>

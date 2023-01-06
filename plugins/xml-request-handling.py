@@ -10,12 +10,12 @@ sys.path.append("/usr/local/kong/python/lib")
 import xsdSoapDefinition
 
 Schema = (
-    { "xsdSoapSchema": {"type": "string", "default": xsdSoapDefinition.XSD_SCHEMA_SOAP, "required": False} },
-    { "xsdApiSchema": {"type": "string", "required": False} },
     { "XPathReplace": {"type": "string", "required": False} },
     { "XPathReplaceAll": {"type": "boolean", "required": False} },
     { "XPathReplaceValue": {"type": "string", "required": False} },
-    { "XSLTReplace": {"type": "string", "required": False} },
+    { "xsdApiSchema": {"type": "string", "required": False} },
+    { "xsdSoapSchema": {"type": "string", "default": xsdSoapDefinition.XSD_SCHEMA_SOAP, "required": False} },
+    { "xsltTransform": {"type": "string", "required": False} },
 )
 
 version = '1.1.0'
@@ -50,13 +50,13 @@ class XMLHandlingRequest:
         kong.log.notice("XSLTransform *** BEGIN ***")
         XSLTReplace = ""
         try:
-            if 'XSLTReplace' in self.config:
-                XSLTReplace = self.config['XSLTReplace']
+            if 'xsltTransform' in self.config:
+                XslTransform = self.config['xsltTransform']
         except:
             return
 
-        # If we don't have the same number of parameters of 'XPathReplace' and 'XPathReplaceValue' we return an Error
-        if XSLTReplace == "":
+        # If there is no XSLT configuration we do nothing
+        if XslTransform == "":
             kong.log.notice("No XSLT transformation is configured, so there is nothing to do")
             return
 
@@ -73,7 +73,7 @@ class XMLHandlingRequest:
         try:
             
             # Construct the XSLT transformer
-            xslt_root = etree.XML(XSLTReplace)
+            xslt_root = etree.XML(XslTransform)
             transform = etree.XSLT(xslt_root)
 
             # Run the transformation on the XML SOAP envelope
