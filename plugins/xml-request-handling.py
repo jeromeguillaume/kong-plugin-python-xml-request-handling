@@ -51,7 +51,7 @@ class XMLHandlingRequest:
         xsltTransform = ""
         try:
             if 'xsltTransform' in self.config:
-                XslTransform = self.config['xsltTransform']
+                xsltTransform = self.config['xsltTransform']
         except:
             return
 
@@ -293,7 +293,8 @@ class Plugin(object):
 
         except Exception as ex:
             kong.log.err("XML Handling error, exception= {}".format(ex))
-            return
+            # Return a SOAP Fault to the Consumer
+            xmlHReq.ReturnSOAPFault(kong, "Plugin xml-request-handling - 'access' phase", ex)
 
         kong.log.notice("access *** END ***")
 
