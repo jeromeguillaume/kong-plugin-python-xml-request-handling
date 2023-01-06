@@ -6,7 +6,7 @@ The plugin handles the XML Request (in the HTTP body) in this order:
 2) Replace the values of XPath entries
 3) Validate XML against its XSD schema
 
-In case of misconfiguration the Plugin sends to the consumer an HTTP 400 error Bad Request (with the error detailed message)
+In case of misconfiguration the Plugin sends to the consumer an HTTP 500 Internal Server Error```<soap:Fault>``` (with the error detailed message)
 
 ## How deploy XML Request Handling plugin
 1) Build a new Docker 'Kong Gateway' image with Python dependencies and the plugin code
@@ -164,8 +164,8 @@ Configure the plugin with:
 - ```XsdSoapSchema``` property with the default value (defined by W3C) which checks the entire SOAP XML content against its schema 
 
 Use request defined at step #4, **change ```</soap:Envelope>``` by ```</soap:EnvelopeKong>```** => Kong says: 
-```json
-"XSD validation failed": "line 10: b'Opening and ending tag mismatch: Envelope line 2 and EnvelopeKong' (line 10)"
+```xml
+<faultstring>XSD validation failed: line 10: b'Opening and ending tag mismatch: Envelope line 2 and EnvelopeKong' (line 10)</faultstring>
 ```
 
 Configure the plugin with:
@@ -182,12 +182,12 @@ Configure the plugin with:
 </xs:schema>
 ```
 Use request defined at step #4, **remove ```<a>5</a>```** => there is an error because the ```<a>``` tag has the ```minOccurs="1"``` XSD property and Kong says: 
-```json
-"XSD validation failed": "Element '{http://tempuri.org/}b': This element is not expected. Expected is ( {http://tempuri.org/}a ). (<string>, line 0)"
+```xml
+<faultstring>XSD validation failed: Element '{http://tempuri.org/}b': This element is not expected. Expected is ( {http://tempuri.org/}a ). (<string>, line 0)</faultstring>
 ```
 Use request defined at step #4, **replace ```<b>7</b>``` by ```<b>ABCD</b>```** => there is an error because the ```<b>``` tag has the ```type="xs:integer"``` XSD property and Kong says: 
- ```json
- "XSD validation failed": "Element '{http://tempuri.org/}b': 'ABCD' is not a valid value of the atomic type 'xs:integer'. (<string>, line 0)"
+ ```xml
+ <faultstring>XSD validation failed: "Element '{http://tempuri.org/}b': 'ABCD' is not a valid value of the atomic type 'xs:integer'. (<string>, line 0)<faultstring>
 ```
 
 ### Example #5: chaining all plugin capabilities on ```calcWebService``` call
