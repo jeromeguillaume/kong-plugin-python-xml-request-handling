@@ -5,6 +5,7 @@ The plugin handles the XML Request (in the HTTP body) in this order:
 1) Transform the XML with XSLT (XSLTransformation)
 2) Replace the values of XPath entries
 3) Validate XML against its XSD schema
+
 Each handling is optional.
 
 In case of misconfiguration the Plugin sends to the consumer an HTTP 500 Internal Server Error ```<soap:Fault>``` (with the error detailed message)
