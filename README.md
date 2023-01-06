@@ -62,7 +62,7 @@ The expected result is ```12```:
 </soap:Envelope>
 ```
 ### Example #1: adding a Tag in XML request of ```calcWebService```  by using XSLT 
-The plugin applies a XSLTransformation on XML request.
+The plugin applies a XSLT Transformation on XML request.
 In this example the XSLT **adds the value ```<b>8</b>```** that will be not present in the request.
 Configure the plugin with:
 - ```XsltTransform``` property with this XSLT definition:
@@ -92,8 +92,11 @@ Use request defined at step #4, remove ```<b>7</b>```, the expected result is no
 </soap:Envelope>
 ```
 ### Example #2: renaming a Tag in XML request of ```calcWebService``` by using XSLT
-The plugin applies a XSLTransformation on XML request.
+The plugin applies a XSLT Transformation on XML request.
 In this example we **change the Tag name from ```<Subtract>...</Subtract>```** (present in the request) **to ```<Add>...</Add>```**.
+
+Configure the plugin with:
+- ```XsltTransform``` property with no value
 
 **Without XSLT**: Use request defined at step #4, rename the Tag ```<Add>...</Add>```, to ```<Subtract>...</Subtract>``` the expected result is ```-2```
 ```xml
