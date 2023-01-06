@@ -48,7 +48,7 @@ class XMLHandlingRequest:
     #-------------------------------------
     def XSLTransform (self, kong):
         kong.log.notice("XSLTransform *** BEGIN ***")
-        XSLTReplace = ""
+        xsltTransform = ""
         try:
             if 'xsltTransform' in self.config:
                 XslTransform = self.config['xsltTransform']
@@ -56,7 +56,7 @@ class XMLHandlingRequest:
             return
 
         # If there is no XSLT configuration we do nothing
-        if XslTransform == "":
+        if xsltTransform == "":
             kong.log.notice("No XSLT transformation is configured, so there is nothing to do")
             return
 
@@ -73,7 +73,7 @@ class XMLHandlingRequest:
         try:
             
             # Construct the XSLT transformer
-            xslt_root = etree.XML(XslTransform)
+            xslt_root = etree.XML(xsltTransform)
             transform = etree.XSLT(xslt_root)
 
             # Run the transformation on the XML SOAP envelope
